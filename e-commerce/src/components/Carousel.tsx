@@ -2,7 +2,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { api } from "@/axios";
+import { useEffect, useState } from "react";
 
 const slides = [
   { title: "Slide 1", image: "url" },
@@ -12,9 +13,26 @@ const slides = [
 
 export const Carousel = () => {
   const [slideIndex, setSlideIndex] = useState(0);
+  const [res, setRes] = useState<string>("");
+
+  useEffect(() => {
+    const getData = async () => {
+      console.log("Hello World");
+
+      console.log(process.env.API);
+
+      const res = await api.get("/");
+
+      setRes(res.data.message);
+    };
+
+    getData();
+  }, []);
 
   return (
     <div className="w-screen h-[800px] overflow-hidden border relative border-cyan-800">
+      <h1>{res}</h1>
+
       <div
         className="w-[300%] h-full flex [&>div]:text-5xl"
         style={{
@@ -49,8 +67,6 @@ const Slide = ({ title, image }: SlideProps) => {
   return (
     <div className="flex-1 h-full flex justify-center items-center">
       {title}
-
-      <img src={image} className="object-cover w-full h-full" />
     </div>
   );
 };
