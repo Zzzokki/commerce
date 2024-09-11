@@ -3,7 +3,7 @@ import { authorModel } from "../../models";
 
 export const getAuthorsController: RequestHandler = async (req, res) => {
   try {
-    const authors = await authorModel.find();
+    const authors = await authorModel.find({});
 
     return res.status(200).json({
       authors,
